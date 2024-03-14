@@ -42,18 +42,25 @@ fig,ax=plt.subplots(figsize=(13,13))
 sns.heatmap(cor,annot=True,ax=ax,cmap='coolwarm')
 plt.show()
 #Nous constatons deux points :
-#HC, NOX, HC+NOX, Particules sont des polluants qui seront exclus de nos études car
-#Le variables Consommation urbaine, consommation mixte, consommation extra urbaine sont complètement 
-#corrélées avec la variable l'émission CO2. C'est évident car les caractéristiques d'un véhicule décident
-#la consommation des véhicules. Ces variables ne font pas donc partie des variables explicatives et seront exclus
+#HC, NOX, HC+NOX sont des polluants qui seront exclus de nos études car malgré 1/4 de NAN, la corrélation
+#entre l'émission CO2 et la HC+NOX est forte. C'est pour cette raison que nous allons concentrer sur CO2 qui est un
+#un bon marqueur pour suivre l'ensnsemble de la polllution 
+#Absence de corrrélation entre la variable 'Particules'et les autres variables 
+#Les variables Consommation urbaine, consommation mixte, consommation extra urbaine sont complètement 
+#corrélées avec la variable l'émission CO2. L'émission vient de combustion de l'energie fossil. Il est
+#important de faire varier la relation entre la consommation de carburant et l'émission CO2
+#Ces variables ne font pas donc partie des variables explicatives et seront exclus
 #de nos études    
 print('\n')  
 
 #Graphique sur la distribution de carburant
-fig, ax = plt.subplots(1,3,figsize=(16,5))
-sns.countplot(x='Carburant',data=df,ax=ax[0])
-sns.relplot(x = "Puissance maximale (kW)", y = "CO2 (g/km)", hue = "Carburant", data = df,ax=ax[1]);
-sns.catplot(x= 'Carburant', y='CO2 (g/km)', kind='bar', data=df,ax=ax[2])
+plt.figure(figsize=(10,10))
+plt.subplots(1,3,1)
+sns.countplot(x='Carburant',data=df)
+plt.subplots(1,3,2)
+sns.relplot(x = "Puissance maximale (kW)", y = "CO2 (g/km)", hue = "Carburant", data = df);
+plt.subplots(1,3,3)
+sns.catplot(x= 'Carburant', y='CO2 (g/km)', kind='bar', data=df)
 plt.xticks(rotation=90)
 
 #Graphique sur la masse et CO2 et hybride:
@@ -67,3 +74,4 @@ sns.catplot(x= 'Carrosserie', y='CO2 (g/km)', kind='bar', data=df,ax = ax[0])
 plt.xticks(rotation=90)
 sns.catplot(x= 'gamme', y='CO2 (g/km)', kind='bar', data=df,ax = ax[1])
 plt.xticks(rotation=90)
+
